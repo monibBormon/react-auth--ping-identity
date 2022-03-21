@@ -5,7 +5,10 @@ import _ from "lodash";
 import InfoTable from "./infoTable";
 import config from "../config";
 
+
+
 /**
+ * 
  * React component for managing the return entry point of the implicit OAuth 2.0 flow and is expecting "access_token", "id_token" or "code" in a redirect uri.
  * The user will be redirected to this point based on the redirect_uri in config.js - the URL that specifies the return entry point of this application.
  */
@@ -161,14 +164,15 @@ class Home extends React.Component {
 
   // send api request 
 
-  handleApiRequest = () => {
-    // console.log(this.state.access_token, authClient.verifyIdToken);
+  handleApiRequest = (e) => {
+    e.preventDefault();
+    console.log(this.state.access_token);
     fetch(`https://pbiembedpocw.azurewebsites.net/api/pbiembed?code=TXYa2eGqBqDk2DD0jWgY4SQW9k410bfa0NNb3nOplCqULx4Ns8Spjw==`, {
       method: 'POST',
       headers: {
-        "token": `Bearer ${this.state.access_token}`
+        'Authorization': `Bearer ${this.state.access_token}`
       },
-      body: { "jwt": authClient.verifyIdToken }
+      body: JSON.stringify("JWt Token")
     }).then(res => res.json())
       .then(data => console.log(data))
   }
@@ -192,7 +196,9 @@ class Home extends React.Component {
             </button>
           </div>
           <div>
-            <button type='button' onClick={this.handleApiRequest}>Request BI Content</button>
+            <form onSubmit={this.handleApiRequest}>
+              <button type='submit'>Request BI Content</button>
+            </form>
           </div>
           <InfoTable btnLabel={'User Information'} data={userInfo} />
           <InfoTable btnLabel={'User Id Token Information'}

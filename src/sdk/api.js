@@ -6,8 +6,6 @@ import request from "superagent";
 import config from "../config";
 import IdTokenVerifier from "./jwt_verifier";
 
-console.log(idTokenVerifier)
-
 /******************************************************************************
  *         OAuth 2/OpenID Connect Protocol API
  ******************************************************************************/

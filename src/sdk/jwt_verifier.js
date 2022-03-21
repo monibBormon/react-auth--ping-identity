@@ -25,21 +25,21 @@ var IdTokenVerifier = function (config) {
    * @returns {Promise<*>}
    */
   async function verify(token, options) {
+    console.log(token)
     const keys = await retrieveKeys();
     return new Promise((resolve, reject) => {
       let decoded_token = null;
       for (let key of keys) {
         try {
           decoded_token =
-              // Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will throw the error.
-              jwt.verify(token.toString(), formatRSPublicKey(key.x5c[0]), options);
+            // Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will throw the error.
+            jwt.verify(token.toString(), formatRSPublicKey(key.x5c[0]), options);
           break;
         } catch (error) {
           // We don't want to reject here, because there's an array of keys provided, and the correct
           // one might be in the middle.
         }
       }
-
       if (decoded_token) {
         resolve(decoded_token)
       } else {
