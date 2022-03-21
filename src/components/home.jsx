@@ -161,14 +161,14 @@ class Home extends React.Component {
 
   // send api request 
 
-  handleApiRequest = (access_token, idTokenJson) => {
-    console.log(access_token, idTokenJson);
+  handleApiRequest = () => {
+    // console.log(this.state.access_token, authClient.verifyIdToken);
     fetch(`https://pbiembedpocw.azurewebsites.net/api/pbiembed?code=TXYa2eGqBqDk2DD0jWgY4SQW9k410bfa0NNb3nOplCqULx4Ns8Spjw==`, {
       method: 'POST',
       headers: {
-        "token": `Bearer ${access_token}`
+        "token": `Bearer ${this.state.access_token}`
       },
-      body: { token: idTokenJson }
+      body: { "jwt": authClient.verifyIdToken }
     }).then(res => res.json())
       .then(data => console.log(data))
   }
@@ -191,7 +191,9 @@ class Home extends React.Component {
             <button type="button" onClick={this.handleSignOff}> Sign Off
             </button>
           </div>
-          <button type='button' onClick={this.handleApiRequest}>Request BI Content</button>
+          <div>
+            <button type='button' onClick={this.handleApiRequest}>Request BI Content</button>
+          </div>
           <InfoTable btnLabel={'User Information'} data={userInfo} />
           <InfoTable btnLabel={'User Id Token Information'}
             data={idTokenJson} />
