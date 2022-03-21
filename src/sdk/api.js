@@ -157,7 +157,6 @@ const generateRandomValue = () => {
   crypto.getRandomValues(D);
   return D[0].toString(36);
 };
-
 /**
  * Recursively flattens JSON object with a keys with a prefix parameter and formatted by '_' character
  * Example: from {a: 1, b: {c: 2, d: 3}} to {a: 1, b_c: 2, b_d: 3}
