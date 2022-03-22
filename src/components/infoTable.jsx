@@ -1,77 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { flatten, CLAIMS_MAPPING } from '../sdk/api';
 
-/**
- * React component for displaying user id token information of data from the UserInfo endpoint, that returns claims about the authenticated end user
- */
-class InfoTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: false
-    };
+const InfoTable = ({ data, btnLabel }) => {
+    const [show, setShow] = useState(false);
 
-    this.hideData = this.hideData.bind(this);
-    this.showData = this.showData.bind(this);
-  }
+    const hideData = () => {
+        setShow(false)
+    }
+    const showData = () => {
+        setShow(true)
+    }
 
-  hideData() {
-    this.setState({
-      show: false
-    });
-  }
+    const userData = data ? flatten(data) : null;
 
-  showData() {
-    this.setState({
-      show: true
-    });
-  }
+    return (
+        show && userData ? (
+            <div>
+                <div className="input-field">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Claim</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.keys(data).map(key => (
+                                <tr key={key}>
+                                    <td>{CLAIMS_MAPPING[key]
+                                        ? CLAIMS_MAPPING[key]
+                                        : key}</td>
+                                    <td>{data[key]}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="input-field">
+                    <button type="button"
+                        onClick={hideData}> Hide {btnLabel}
+                    </button>
+                </div>
+            </div>
+        ) : (
+            <div className="input-field">
+                <button type="button"
+                    onClick={showData}> Show {btnLabel}
+                </button>
+            </div>
+        )
+    );
+};
 
-  render() {
-    const userData = this.props.data ? flatten(this.props.data) : null;
-    return this.state.show && userData ? (
-      <div>
-        <div className="input-field">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Claim</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(this.props.data).map(key => (
-                <tr key={key}>
-                  <td>{CLAIMS_MAPPING[key]
-                    ? CLAIMS_MAPPING[key]
-                    : key}</td>
-                  <td>{this.props.data[key]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="input-field">
-          <button type="button"
-            onClick={this.hideData}> Hide {this.props.btnLabel}
-          </button>
-        </div>
-      </div>
-    ) : (
-      <div className="input-field">
-        <button type="button"
-          onClick={this.showData}> Show {this.props.btnLabel}
-        </button>
-      </div>
-    )
-
-  }
-}
 
 InfoTable.propTypes = {
-  btnLabel: PropTypes.string.isRequired,
-  data: PropTypes.object
+    btnLabel: PropTypes.string.isRequired,
+    data: PropTypes.object
 };
+
 
 export default InfoTable;
