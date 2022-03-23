@@ -13,6 +13,7 @@ const Home = () => {
     const [errorMessage, setErroMessage] = useState("")
 
 
+
     const handleSignIn = () => {
         clearSession();
         let state = authClient.generateRandomValue();
@@ -122,17 +123,19 @@ const Home = () => {
     window.history.replaceState({}, '', '/');
 
 
+
+
     // send api request 
 
     const handleApiRequest = (e) => {
         e.preventDefault();
-        console.log(access_token);
+        console.log(access_token, "jwt", localStorage.getItem('idToken'));
         fetch(`https://pbiembedpocw.azurewebsites.net/api/pbiembed?code=TXYa2eGqBqDk2DD0jWgY4SQW9k410bfa0NNb3nOplCqULx4Ns8Spjw==`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${access_token}`
             },
-            body: JSON.stringify("JWt Token")
+            body: JSON.stringify(localStorage.getItem('idToken'))
         }).then(res => res.json())
             .then(data => console.log(data))
     }

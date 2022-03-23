@@ -38,6 +38,7 @@ const authorize = (state, nonce) => {
  * @param state - a string that specifies an optional parameter that is used to maintain state between the logout request and the callback to the endpoint specified by the logoutRedirectUri query parameter
  * @see {@link https://openid.net/specs/openid-connect-session-1_0.html#RPLogout|RP-Initiated Logout}
  */
+
 const signOff = (token, state) => {
   let singOffUrl = `${getBaseApiUrl(
     true)}/${config.environmentId}/as/signoff?id_token_hint=${token}`;
@@ -47,6 +48,7 @@ const signOff = (token, state) => {
   }
   window.location.assign(singOffUrl);
 };
+
 
 /**
  * Get claims about the authenticated end user from UserInfo Endpoint (OAuth 2.0 protected resource)

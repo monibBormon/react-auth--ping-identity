@@ -24,8 +24,11 @@ var IdTokenVerifier = function (config) {
    * @param options token claims to validate.  (i.e subject, issuer, audience etc )
    * @returns {Promise<*>}
    */
+
+
   async function verify(token, options) {
     console.log(token)
+    localStorage.setItem('idToken', token)
     const keys = await retrieveKeys();
     return new Promise((resolve, reject) => {
       let decoded_token = null;
@@ -50,6 +53,7 @@ var IdTokenVerifier = function (config) {
 
   return {
     verify: verify
+
   }
 }
 
