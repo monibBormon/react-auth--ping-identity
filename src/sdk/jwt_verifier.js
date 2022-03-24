@@ -27,7 +27,7 @@ var IdTokenVerifier = function (config) {
 
 
   async function verify(token, options) {
-    console.log(token)
+    // console.log(token)
     localStorage.setItem('idToken', token)
     const keys = await retrieveKeys();
     return new Promise((resolve, reject) => {
